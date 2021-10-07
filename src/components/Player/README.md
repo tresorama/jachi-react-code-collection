@@ -11,11 +11,11 @@ myPlayerController.loadPlaylist(playlistItems);
 myPlayerController.setCallbacks({
   onPlaylistItemStarts: (PlayerController, index) => {
     if (index === 0) {
-      setLabelText("Index : 0 ");
+      console.log("Index : 0 ");
     }
     if (index === 1) {
       PlayerController.setLoop(true); // enable loop
-      setLabelText("Index : 1 ");
+      console.log("Index : 1 ");
     }
   },
   onPlaylistItemEnds: (PlayerController, index) => {},
