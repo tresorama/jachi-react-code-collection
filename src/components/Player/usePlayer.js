@@ -1,38 +1,32 @@
-import React from "react";
+import { useRef, useEffect } from "react";
 import PlayerAbstractController from "./PlayerAbstractController";
 
-const HTMLPlayer = ({ type, domRef, ...props }) => {
-  return type === "video" ? <video {...props} ref={domRef} /> : <audio {...props} ref={domRef} />;
-};
+const usePlayer = ({ playerRef, playlistItems, playerEventsCallbacks }) => {
+  const _PlayerAbstractController = useRef();
 
-const usePlayer = ({ type, playlistItems, playerEventsCallbacks, ...props }) => {
-  const _PlayerAbstractController = React.useRef();
-  const _PlayerElementRef = React.useRef();
-  const _Player = React.useRef((props) => <HTMLPlayer {...props} type={type} domRef={_PlayerElementRef} />);
-
-  React.useEffect(() => {
-    if (_PlayerElementRef.current) {
+  useEffect(() => {
+    if (playerRef.current) {
       const instance = new PlayerAbstractController();
-      instance.setPlayerElement(_PlayerElementRef.current);
+      instance.setPlayerElement(playerRef.current);
       _PlayerAbstractController.current = instance;
     }
-  }, []);
+  }, [playerRef]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (_PlayerAbstractController.current) {
       const instance = _PlayerAbstractController.current;
       instance.loadPlaylist(playlistItems);
     }
   }, [playlistItems]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (_PlayerAbstractController.current) {
       const instance = _PlayerAbstractController.current;
       instance.setCallbacks(playerEventsCallbacks);
     }
   }, [playerEventsCallbacks]);
 
-  return [_Player.current, _PlayerAbstractController.current];
+  return [_PlayerAbstractController.current];
 };
 
 export default usePlayer;

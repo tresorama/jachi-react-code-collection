@@ -1,7 +1,7 @@
-# Usage in Vanilla JS
+## Usage in Vanilla JS
 
 ```js
-import PlayerAbstractController from ".";
+import PlayerAbstractController from "./PlayerAbstractController";
 
 const playlistItems = [{ src: "/assets/videos/Video.mp4" }, { src: "/assets/videos/Loop.mp4" }];
 
@@ -11,11 +11,11 @@ myPlayerController.loadPlaylist(playlistItems);
 myPlayerController.setCallbacks({
   onPlaylistItemStarts: (PlayerController, index) => {
     if (index === 0) {
-      console.log("Index : 0 ");
+      console.log("Start Playing Item at Index 0 ");
     }
     if (index === 1) {
       PlayerController.setLoop(true); // enable loop
-      console.log("Index : 1 ");
+      console.log("Start Playing Item at Index 1 ");
     }
   },
   onPlaylistItemEnds: (PlayerController, index) => {},
@@ -34,16 +34,17 @@ document.getElementById("set-vol-90").addEventListener("click", () => myPlayerCo
 ## Usage in React
 
 ```js
-import usePlayer from ".";
+import { usePlayer, Player } from ".";
 
-const playlistItems2 = [{ src: "/assets/videos/Video.mp4" }, { src: "/assets/videos/Loop.mp4" }];
+const playlistItems = [{ src: "/assets/videos/Video.mp4" }, { src: "/assets/videos/Loop.mp4" }];
 
 const ExampleComponent = (props) => {
-  const [lableText, setLabelText] = React.useState("");
+  const [labelText, setLabelText] = React.useState("");
 
-  const [PlayerComponent, PlayerController] = usePlayer({
-    type: "video",
-    playlistItems: playlistItems2,
+  const playerRef = React.useRef();
+  const [PlayerController] = usePlayer({
+    playerRef,
+    playlistItems,
     playerEventsCallbacks: {
       onPlaylistItemStarts: (PlayerController, index) => {
         if (index === 0) {
@@ -60,7 +61,7 @@ const ExampleComponent = (props) => {
 
   return (
     <div>
-      <PlayerComponent className="my-player" />
+      <Player domRef={playerRef} type="video" className="my-player" />
     </div>
   );
 };
