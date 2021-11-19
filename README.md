@@ -1,10 +1,10 @@
-# Jachi REact Code Collection
+# Jachi React Code Collection
 
 ## Components
 
-SearchBarAutoComplete
-Player
+- SearchBarAutoComplete
+- Player
 
 ## Hooks
 
-useFetching
+- useFetching
