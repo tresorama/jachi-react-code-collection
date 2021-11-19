@@ -3,6 +3,7 @@
 ## Components
 
 SearchBarAutoComplete
+Player
 
 ## Hooks
 
